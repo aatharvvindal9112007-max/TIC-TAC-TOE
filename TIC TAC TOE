@@ -1,0 +1,63 @@
+import random
+block = ['1','2','3','4','5','6','7','8','9']
+def grid():
+    print (f"{block[0]} | {block[1]} | {block[2]}")
+    print ("----------")
+    print (f"{block[3]} | {block[4]} | {block[5]}")
+    print ("----------")
+    print (f"{block[6]} | {block[7]} | {block[8]}")
+def winner(player):
+    win_pos = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+    for pos in win_pos:
+     if block[pos[0]]==block[pos[1]]==block[pos[2]]==player:
+        return True
+    return False
+def is_full():
+    for i in block:
+        if i not in ['X','O']:
+            return False
+    return True
+while True:
+    print ("\t TIC TAC TOE")
+    p1 = input(" Player 1 , choose X/O : ").upper()
+    p2 = input(" Player 2 , choose X/O : ").upper()
+    if p1 == p2:
+        print ("Your choices can't be same")
+        break
+    elif (p1=='X' or p1=='O')and(p2=='O' or p2=='X'):
+        print ("Player 1 (",p1,") VS Player 2 (",p2,")")
+        current_player = random.choice([p1,p2])
+        while True:
+            grid()
+            move = (input(f"Player {current_player}, choose position (1 to 9) :"))
+            if not move.isdigit():
+                print("Invalid move chosen")
+                continue
+            move = int(move)-1
+            if move<0 or move>8:
+                print("Invalid move chosen")
+                continue
+            if block[move] in ['X','O']:
+                print("Space already taken, try another move")
+                continue
+            else:
+                block[move]=current_player
+            if winner(current_player):
+                grid()
+                print (f" player {current_player} wins !!")
+                break
+            elif is_full():
+                grid()
+                print ("It's a draw")
+                break
+            if current_player=='X':
+                current_player='O'
+            else:
+                current_player='X'
+        ch = input("Wanna Play Again? (Y/N) : ").upper()
+        if ch!='Y':
+          print ("You don't wanna play again , Game Over")
+          break
+        block = ['1','2','3','4','5','6','7','8','9']
+    else:
+        print ("Choose only from X or O !!")
